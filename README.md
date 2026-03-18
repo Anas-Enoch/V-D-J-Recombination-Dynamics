@@ -5,55 +5,76 @@
 **Affiliation:** Mohammed VI University of Health Sciences (UM6SS), Casablanca, Morocco  
 
 ---
+# V-D-J-Recombination-Dynamics
+
+This repository contains the computational assets used for a bounded stochastic analysis of V(D)J recombination dynamics, including data tables, plotting scripts, and figure-generation workflows for Clonal Attractor Score (CAS) analyses.
 
 ## Overview
 
-This repository contains the computational framework accompanying:
+The repository supports a finite-state stochastic modeling workflow for studying recombination dynamics under bounded insertion complexity and biologically interpretable perturbations. The main outputs are:
 
-**VDJ-KTS: A Formal and Probabilistic Framework for Verifying V(D)J Recombination Dynamics and Clonal Attractor Susceptibility (CAS).**
+- CAS stability analyses across insertion bounds
+- rare-event benchmarking versus Monte Carlo
+- anchored cohort-level CAS comparisons
+- ROC comparisons against classical clonality metrics
+- mechanism sensitivity analyses under survival/checkpoint perturbation
 
-VDJ-KTS models V(D)J recombination as a bounded finite-state Markov system and defines the Clonal Attractor Score (CAS) as an operator-level reachability functional:
+## Repository structure
 
-CAS(s₀) = ⟨ δₛ₀ , (−Q_TT)⁻¹ Q_TA 1 ⟩
+### `data/`
+CSV tables used to generate manuscript figures.
 
-The framework enables:
+Main files:
+- `results_cas_stability.csv`
+- `results_cohort_cas.csv`
+- `results_mechanism_sensitivity.csv`
+- `results_rare_event.csv`
+- `results_roc.csv`
 
-- Exact reachability computation (no Monte Carlo bias)
-- Stability analysis under junctional complexity bounds
-- Sensitivity analysis under structured generator perturbations
-- Evaluation of non-additive biological mechanism interactions
+Notes:
+- `results_mechanism_sensitivity.csv` is the canonical mechanism-sensitivity dataset.
+- older duplicate files such as `results_mechanism_sensitivity1.csv` should not be used for final analyses.
 
----
+### `figures/`
+Generated manuscript figures.
 
-## Repository Structure
-scripts/      # Python scripts for CSV generation and figure plotting
-data/         # Structured CSV inputs
-figures/      # Submission-ready PDF figures
-paper/        # Manuscript PDF (optional)
+Main files:
+- `fig2_cas_stability.pdf`
+- `fig3_rare_event.pdf`
+- `fig4_cohort_cas_distribution.pdf`
+- `fig5_roc_comparison.pdf`
+- `fig6_mechanism_sensitivity_clean.png`
+- optional PDF counterpart if exported
 
----
+Notes:
+- `fig6_mechanism_sensitivity_clean.*` is the current final mechanism-perturbation figure.
+- older versions of Figure 6 should not be used in the final manuscript.
 
-## Environment Setup
+### `scripts/`
+Python scripts used to generate CSVs and figures.
 
-Create a virtual environment:
+#### Figure-generation scripts
+- `plot_fig2_cas_stability.py`
+- `plot_fig3_rare_event.py`
+- `plot_fig4_cohort_cas_distribution.py`
+- `plot_fig5_roc_comparison.py`
+- `plot_fig6_mechanism_sensitivity.py`
+- `plot_fig7_mechanism_sensitivity.py` (legacy / optional)
+- `plot_utils.py`
 
+#### Data-generation scripts
+- `make_results_cas_stability_csv.py`
+- `make_results_cohort_cas_csv.py`
+- `make_results_mechanism_sensitivity_csv.py`
+- `make_results_rare_event_csv.py`
+- `make_results_roc_csv.py`
+
+Notes:
+- `make_results_mechanism_sensitivity_csv.py` is the preferred script for the final mechanism-sensitivity dataset.
+- obsolete or broken experimental scripts should be removed or clearly marked before publication.
+
+## Final mechanism-sensitivity workflow
+
+### 1. Generate the mechanism-sensitivity CSV
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install numpy pandas matplotlib scikit-learn
-
-Reproducing Figures
-
-Run CSV generators:
-python scripts/make_results_cas_stability_csv.py
-python scripts/make_results_rare_event_csv.py
-python scripts/make_results_cohort_cas_csv.py
-python scripts/make_results_roc_csv.py
 python scripts/make_results_mechanism_sensitivity_csv.py
-
-Then generate figures:
-python scripts/plot_fig2_cas_stability.py
-python scripts/plot_fig3_rare_event.py
-python scripts/plot_fig4_cohort_cas_distribution.py
-python scripts/plot_fig5_roc_comparison.py
-python scripts/plot_fig6_mechanism_sensitivity.py
